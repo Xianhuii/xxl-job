@@ -53,16 +53,16 @@ public class JobRegistryHelper {
 				});
 
 		// for monitor
-		registryMonitorThread = new Thread(new Runnable() {
+		registryMonitorThread = new Thread(new Runnable() { // jxh: 注册表监视线程
 			@Override
 			public void run() {
 				while (!toStop) {
 					try {
-						// auto registry group
+						// auto registry group 获取所有自动注册分组
 						List<XxlJobGroup> groupList = XxlJobAdminConfig.getAdminConfig().getXxlJobGroupDao().findByAddressType(0);
 						if (groupList!=null && !groupList.isEmpty()) {
 
-							// remove dead address (admin/executor)
+							// remove dead address (admin/executor) 移除超时的节点
 							List<Integer> ids = XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao().findDead(RegistryConfig.DEAD_TIMEOUT, new Date());
 							if (ids!=null && ids.size()>0) {
 								XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao().removeDead(ids);
@@ -113,7 +113,7 @@ public class JobRegistryHelper {
 						}
 					}
 					try {
-						TimeUnit.SECONDS.sleep(RegistryConfig.BEAT_TIMEOUT);
+						TimeUnit.SECONDS.sleep(RegistryConfig.BEAT_TIMEOUT); // 阻塞30秒
 					} catch (InterruptedException e) {
 						if (!toStop) {
 							logger.error(">>>>>>>>>>> xxl-job, job registry monitor thread error:{}", e);
@@ -146,7 +146,7 @@ public class JobRegistryHelper {
 
 	// ---------------------- helper ----------------------
 
-	public ReturnT<String> registry(RegistryParam registryParam) {
+	public ReturnT<String> registry(RegistryParam registryParam) { // jxh: 注册节点
 
 		// valid
 		if (!StringUtils.hasText(registryParam.getRegistryGroup())
@@ -172,7 +172,7 @@ public class JobRegistryHelper {
 		return ReturnT.SUCCESS;
 	}
 
-	public ReturnT<String> registryRemove(RegistryParam registryParam) {
+	public ReturnT<String> registryRemove(RegistryParam registryParam) { // jxh: 移除节点
 
 		// valid
 		if (!StringUtils.hasText(registryParam.getRegistryGroup())

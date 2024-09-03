@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author xuxueli 2018-10-28 00:18:17
  */
 
-public class XxlJobScheduler  {
+public class XxlJobScheduler  { // jxh: XxlJob调度器
     private static final Logger logger = LoggerFactory.getLogger(XxlJobScheduler.class);
 
 
@@ -25,22 +25,22 @@ public class XxlJobScheduler  {
         initI18n();
 
         // admin trigger pool start
-        JobTriggerPoolHelper.toStart();
+        JobTriggerPoolHelper.toStart(); // jxh: 触发器
 
         // admin registry monitor run
-        JobRegistryHelper.getInstance().start();
+        JobRegistryHelper.getInstance().start(); // jxh: 注册节点维护
 
         // admin fail-monitor run
-        JobFailMonitorHelper.getInstance().start();
+        JobFailMonitorHelper.getInstance().start(); // jxh: 失败任务处理（重试、告警）
 
         // admin lose-monitor run ( depend on JobTriggerPoolHelper )
-        JobCompleteHelper.getInstance().start();
+        JobCompleteHelper.getInstance().start(); // jxh: 任务结果丢失处理、任务回调处理
 
         // admin log report start
-        JobLogReportHelper.getInstance().start();
+        JobLogReportHelper.getInstance().start(); // jxh: 日志统计信息处理
 
         // start-schedule  ( depend on JobTriggerPoolHelper )
-        JobScheduleHelper.getInstance().start();
+        JobScheduleHelper.getInstance().start(); // jxh: 任务调度
 
         logger.info(">>>>>>>>> init xxl-job admin success.");
     }

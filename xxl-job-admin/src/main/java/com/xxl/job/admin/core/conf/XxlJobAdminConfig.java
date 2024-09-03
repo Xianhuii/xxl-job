@@ -123,11 +123,11 @@ public class XxlJobAdminConfig implements InitializingBean, DisposableBean {
         return logretentiondays;
     }
 
-    public XxlJobLogDao getXxlJobLogDao() {
+    public XxlJobLogDao getXxlJobLogDao() { // 任务日志
         return xxlJobLogDao;
     }
 
-    public XxlJobInfoDao getXxlJobInfoDao() {
+    public XxlJobInfoDao getXxlJobInfoDao() { // 任务信息
         return xxlJobInfoDao;
     }
 
@@ -135,7 +135,7 @@ public class XxlJobAdminConfig implements InitializingBean, DisposableBean {
         return xxlJobRegistryDao;
     }
 
-    public XxlJobGroupDao getXxlJobGroupDao() {
+    public XxlJobGroupDao getXxlJobGroupDao() { // 分组信息
         return xxlJobGroupDao;
     }
 

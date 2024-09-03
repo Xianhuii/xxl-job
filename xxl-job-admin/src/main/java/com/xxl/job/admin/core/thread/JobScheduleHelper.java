@@ -38,7 +38,7 @@ public class JobScheduleHelper {
     public void start(){
 
         // schedule thread
-        scheduleThread = new Thread(new Runnable() {
+        scheduleThread = new Thread(new Runnable() { // jxh: 任务调度线程
             @Override
             public void run() {
 
@@ -83,7 +83,7 @@ public class JobScheduleHelper {
                             for (XxlJobInfo jobInfo: scheduleList) {
 
                                 // time-ring jump
-                                if (nowTime > jobInfo.getTriggerNextTime() + PRE_READ_MS) {
+                                if (nowTime > jobInfo.getTriggerNextTime() + PRE_READ_MS) { // jxh: 错过执行的任务
                                     // 2.1、trigger-expire > 5s：pass && make next-trigger-time
                                     logger.warn(">>>>>>>>>>> xxl-job, schedule misfire, jobId = " + jobInfo.getId());
 
@@ -98,7 +98,7 @@ public class JobScheduleHelper {
                                     // 2、fresh next
                                     refreshNextValidTime(jobInfo, new Date());
 
-                                } else if (nowTime > jobInfo.getTriggerNextTime()) {
+                                } else if (nowTime > jobInfo.getTriggerNextTime()) { // jxh: 正常执行的任务
                                     // 2.2、trigger-expire < 5s：direct-trigger && make next-trigger-time
 
                                     // 1、trigger
@@ -109,9 +109,9 @@ public class JobScheduleHelper {
                                     refreshNextValidTime(jobInfo, new Date());
 
                                     // next-trigger-time in 5s, pre-read again
-                                    if (jobInfo.getTriggerStatus()==1 && nowTime + PRE_READ_MS > jobInfo.getTriggerNextTime()) {
+                                    if (jobInfo.getTriggerStatus()==1 && nowTime + PRE_READ_MS > jobInfo.getTriggerNextTime()) { // 下次执行时间<当前时间+预读时间，添加到时间轮线程执行
 
-                                        // 1、make ring second
+                                        // 1、make ring second 计算时间轮所属秒
                                         int ringSecond = (int)((jobInfo.getTriggerNextTime()/1000)%60);
 
                                         // 2、push time ring
@@ -122,7 +122,7 @@ public class JobScheduleHelper {
 
                                     }
 
-                                } else {
+                                } else { // jxh: 未触发任务
                                     // 2.3、trigger-pre-read：time-ring trigger && make next-trigger-time
 
                                     // 1、make ring second
@@ -218,7 +218,7 @@ public class JobScheduleHelper {
 
 
         // ring thread
-        ringThread = new Thread(new Runnable() {
+        ringThread = new Thread(new Runnable() { // jxh: 时间轮调度线程
             @Override
             public void run() {
 
@@ -238,7 +238,7 @@ public class JobScheduleHelper {
                         List<Integer> ringItemData = new ArrayList<>();
                         int nowSecond = Calendar.getInstance().get(Calendar.SECOND);   // 避免处理耗时太长，跨过刻度，向前校验一个刻度；
                         for (int i = 0; i < 2; i++) {
-                            List<Integer> tmpData = ringData.remove( (nowSecond+60-i)%60 );
+                            List<Integer> tmpData = ringData.remove( (nowSecond+60-i)%60 ); // 根据当前秒，获取任务id列表
                             if (tmpData != null) {
                                 ringItemData.addAll(tmpData);
                             }
@@ -248,7 +248,7 @@ public class JobScheduleHelper {
                         logger.debug(">>>>>>>>>>> xxl-job, time-ring beat : " + nowSecond + " = " + Arrays.asList(ringItemData) );
                         if (ringItemData.size() > 0) {
                             // do trigger
-                            for (int jobId: ringItemData) {
+                            for (int jobId: ringItemData) { // 触发任务调度
                                 // do trigger
                                 JobTriggerPoolHelper.trigger(jobId, TriggerTypeEnum.CRON, -1, null, null, null);
                             }

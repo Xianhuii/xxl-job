@@ -25,7 +25,7 @@ public class JobTriggerPoolHelper {
     private ThreadPoolExecutor slowTriggerPool = null;
 
     public void start(){
-        fastTriggerPool = new ThreadPoolExecutor(
+        fastTriggerPool = new ThreadPoolExecutor( // jxh: 快速任务触发线程池
                 10,
                 XxlJobAdminConfig.getAdminConfig().getTriggerPoolFastMax(),
                 60L,
@@ -38,7 +38,7 @@ public class JobTriggerPoolHelper {
                     }
                 });
 
-        slowTriggerPool = new ThreadPoolExecutor(
+        slowTriggerPool = new ThreadPoolExecutor( // jxh: 慢任务触发线程池
                 10,
                 XxlJobAdminConfig.getAdminConfig().getTriggerPoolSlowMax(),
                 60L,
@@ -69,7 +69,7 @@ public class JobTriggerPoolHelper {
     /**
      * add trigger
      */
-    public void addTrigger(final int jobId,
+    public void addTrigger(final int jobId, // jxh: 触发任务
                            final TriggerTypeEnum triggerType,
                            final int failRetryCount,
                            final String executorShardingParam,

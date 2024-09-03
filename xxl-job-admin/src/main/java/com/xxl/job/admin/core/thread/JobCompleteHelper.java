@@ -57,7 +57,7 @@ public class JobCompleteHelper {
 
 
 		// for monitor
-		monitorThread = new Thread(new Runnable() {
+		monitorThread = new Thread(new Runnable() { // 任务结果丢失处理
 
 			@Override
 			public void run() {
@@ -99,7 +99,7 @@ public class JobCompleteHelper {
 					}
 
                     try {
-                        TimeUnit.SECONDS.sleep(60);
+                        TimeUnit.SECONDS.sleep(60); // 阻塞60秒
                     } catch (Exception e) {
                         if (!toStop) {
                             logger.error(e.getMessage(), e);
@@ -135,7 +135,7 @@ public class JobCompleteHelper {
 
 	// ---------------------- helper ----------------------
 
-	public ReturnT<String> callback(List<HandleCallbackParam> callbackParamList) {
+	public ReturnT<String> callback(List<HandleCallbackParam> callbackParamList) { // jxh: 任务回调处理
 
 		callbackThreadPool.execute(new Runnable() {
 			@Override

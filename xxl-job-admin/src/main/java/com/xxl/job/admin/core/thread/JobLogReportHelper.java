@@ -31,7 +31,7 @@ public class JobLogReportHelper {
         logrThread = new Thread(new Runnable() {
 
             @Override
-            public void run() {
+            public void run() { // jxh: 日志统计信息处理
 
                 // last clean log time
                 long lastCleanLogTime = 0;
