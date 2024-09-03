@@ -94,7 +94,7 @@ public class JobThread extends Thread{
     }
 
     @Override
-	public void run() {
+	public void run() { // jxh: 任务执行线程
 
     	// init
     	try {
@@ -143,7 +143,7 @@ public class JobThread extends Thread{
 									// init job context
 									XxlJobContext.setXxlJobContext(xxlJobContext);
 
-									handler.execute();
+									handler.execute(); // jxh: 执行任务
 									return true;
 								}
 							});
@@ -203,6 +203,7 @@ public class JobThread extends Thread{
 
 				XxlJobHelper.log("<br>----------- JobThread Exception:" + errorMsg + "<br>----------- xxl-job job execute end(error) -----------");
 			} finally {
+				// jxh: 执行回调
                 if(triggerParam != null) {
                     // callback handler info
                     if (!toStop) {

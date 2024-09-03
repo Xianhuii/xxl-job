@@ -190,7 +190,7 @@ public class EmbedServer {
                         return executorBiz.idleBeat(idleBeatParam);
                     case "/run":
                         TriggerParam triggerParam = GsonTool.fromJson(requestData, TriggerParam.class);
-                        return executorBiz.run(triggerParam);
+                        return executorBiz.run(triggerParam); // jxh: 执行任务
                     case "/kill":
                         KillParam killParam = GsonTool.fromJson(requestData, KillParam.class);
                         return executorBiz.kill(killParam);

@@ -65,7 +65,7 @@ public class XxlJobExecutor  {
 
 
     // ---------------------- start + stop ----------------------
-    public void start() throws Exception {
+    public void start() throws Exception { // jxh: 初始化执行器
 
         // init logpath
         XxlJobFileAppender.initLogPath(logPath);
